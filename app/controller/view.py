@@ -31,7 +31,7 @@ def stats_host(interface):
 
 
 
-
+'''
 @app.route("/qos/add/tbf", methods=["GET", "POST"])
 def qos_add_tbf():
     latency     = request.json["latency"]
@@ -39,3 +39,4 @@ def qos_add_tbf():
     rate        = request.json["rate"]
     peakrate    = request.json["peakrate"]
     minburst    = request.json["minburst"]
+'''
