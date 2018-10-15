@@ -41,7 +41,7 @@ Returns the RX and TX data of the Docker interface.
 
 #### Error Response:
 - <b>Code:</b> 404
-+ <b>Content:</b> `{"error":"Interface does not exist."}`
+- <b>Content:</b> `{"error":"Interface does not exist."}`
 
 - `/qos/rules` - Add, List, or Remove QoS rule from the interface of a given container.
 `
