@@ -136,6 +136,8 @@ Add, List, or Remove QoS rule from the interface of a given container.
 - <b>Code:</b> 200
 - <b>Content:</b> `{"veth0167b74": {"ID": "e943f949c929", "IP": "172.17.0.2", "rule": {"burst": "4Kb", "latency": "49.9ms", "minburst": "1519b", "peak": "91Kbit", "rate": "90Kbit"}}}`
 
+<br>
+
 - <b>Method POST or DELETE</b>
 - <b>Code:</b> 200
 - <b>Content:</b> `'{"result":"success"}'`
