@@ -5,7 +5,7 @@ pass=${3}
 if [ $var = 0 ]
 then
     echo $pass | sudo -S -u ${user} sh -c "tc qdisc del root dev ${1}"
-    echo "success"
+    echo "0"
 else
-    echo "interface does not exist."
+    echo "1"
 fi 

@@ -1,5 +1,5 @@
 from app import app
-from flask import jsonify, request, url_for
+from flask import jsonify, request, url_for, make_response
 import os
 
 
@@ -23,14 +23,18 @@ def stats_host():
     """Returns the RX and TX data of the Docker interface."""
     if request.method == "GET":
         data = request.get_json(force=True)
-        file = os.popen("ifconfig %s | tail -n2 | head -n 1 | tr -s ' '" %(data['iface']), "r")
+        file =  os.popen("bash %s/app/static/scripts/stats.sh %s" %(os.getcwd().replace(" ","\ "), data['iface']), "r")
         c = file.readlines()
-        line = c[0].split(" ")
-
-        rx = float(line[2].split(":")[1])
-        tx = float(line[6].split(":")[1])
-            
-        return jsonify({"rx":rx, "tx":tx})
+        try:
+            rx=0
+            tx=0
+            for line in c:
+                d = line.split(":")
+                rx = d[0]
+                tx = d[1].replace('\n','')
+            return jsonify({"RX":rx, "TX":tx})
+        except IndexError:
+            return make_response(jsonify({"error":"Interface does not exist."}),404)
 
 
 @app.route("/qos/rules", methods=["GET", "DELETE", "POST"])
@@ -64,10 +68,14 @@ def qos_rules():
         file =  os.popen("bash %s/app/static/scripts/delete_rule.sh %s %s %s" %(os.getcwd().replace(" ","\ "), 
                                                           data['veth'], data['user'], data['pass']), "r")
         c = file.readlines()
-        r={}
         for line in c:
-            r["result"] = line.replace('\n','')
-        return jsonify(r)
+            print c
+            if line.replace('\n','') == "0":
+                return make_response(jsonify({"result":"success"}),200)
+            else:
+                return make_response(jsonify({"error":"interface does not exist."}),404)
+
+        return make_response(jsonify({"error":"Rule not applied."}),404)
     
     elif request.method == "POST":
         data = request.get_json(force=True)
@@ -75,7 +83,11 @@ def qos_rules():
                                             data['user'],data['pass'], data['veth'], data['rate'],
                                             data['burst'], data['latency'], data['peak'], data['minburst']), "r")
         c = file.readlines()
-        r={}
+
         for line in c:
-            r["result"] = line.replace('\n','')
-        return jsonify(r)
+            if line.replace('\n','') == "0":
+                return make_response(jsonify({"result":"success"}),200)
+            elif line.replace('\n','') == "1":
+                return make_response(jsonify({"error":"interface does not exist."}),404)
+        
+        return make_response(jsonify({"error":"Rule not applied."}),404)

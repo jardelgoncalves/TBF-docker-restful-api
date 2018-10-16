@@ -15,10 +15,10 @@ then
     echo $pass | sudo -S -u ${user} sh -c "tc qdisc add dev ${veth} root tbf rate ${rate} latency ${lat} burst ${burst} peakrate ${peak} minburst ${minburst} 2> /dev/null"
     if [ $? = 0 ]
     then
-        echo "success"
+        echo "0"
     else
-        echo "Rule not applied"
+        echo "2"
     fi
 else
-    echo "interface does not exist."
+    echo "1"
 fi
