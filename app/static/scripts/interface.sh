@@ -5,6 +5,6 @@ for c in $(docker ps -q); do
     iflink=`echo $iflink|tr -d '\r'`
     veth=`grep -l $iflink /sys/class/net/veth*/ifindex`
     veth=`echo $veth|sed -e 's;^.*net/\(.*\)/ifindex$;\1;'`
-    ip=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${c}`
+    ip=`docker inspect --format '{{range .NetworkSettings.Networks }}{{.IPAddress}}{{end}}' ${c}`
     echo "${c}:${ip}:${veth}"
 done
