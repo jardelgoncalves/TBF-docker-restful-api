@@ -1,4 +1,4 @@
-# QoS Docker RESTFul API
+# TBF QoS Docker RESTFul API
 Simple RESTFul API for obtaining information from the Docker interface and for enforcing TBF-based QoS policies.
 
 ### Pendencies
