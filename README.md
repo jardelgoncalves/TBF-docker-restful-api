@@ -1,5 +1,5 @@
-# TBF (Token Bucket Filter) Docker RESTFul API
-Simple RESTFul API for obtaining information from the Docker interface and for enforcing TBF-based QoS policies.
+# TBF Docker RESTFul API
+Simple RESTFul API for obtaining information from the Docker interface and for enforcing TBF-based (Token Bucket Filter) QoS policies.
 
 ### Pendencies
 ```
